@@ -1,5 +1,6 @@
 package com.example.worldwidenews.database
 
+import com.example.worldwidenews.api.Article
 import com.example.worldwidenews.api.RetrofitInstance
 import com.example.worldwidenews.database.ArticleDatabase
 
@@ -15,4 +16,12 @@ class NewsRepository(
     suspend fun searchNews(searchQuery:String,pageNumber: Int) =
         RetrofitInstance.api.searchForNews(searchQuery,pageNumber)
 
+    // to inset article into database
+    suspend fun upsert(article :Article) = db.getArticleDao().upsert(article)
+
+    // this fun returns livedata to get our save news
+    fun getSaveNews() = db.getArticleDao().getAllArticles()
+
+    // to delete article
+    suspend fun deleteArticle(article:Article)=db.getArticleDao().deleteArticle(article)
 }
